@@ -1,9 +1,9 @@
 ﻿using System;
-using FreshMvvm;
 using PropertyChanged;
-using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using System.Collections.Generic;
+
 
 namespace Placeholder
 {
@@ -15,10 +15,9 @@ namespace Placeholder
         public AlbumsPageModel(PlaceholderService service)
         {
             _service = service;
-            Albums = new ObservableCollection<Album>();
         }
 
-        public ObservableCollection<Album> Albums { get; set; }
+        public List<Album> Albums { get; set; }
 
         public Album SelectedItem 
         {
@@ -26,20 +25,12 @@ namespace Placeholder
             set { 
                 if (value != null)
                 {
-                    SelectedItemCommand.Execute(value);
+                    CoreMethods.PushPageModel<AlbumDetailsPageModel>(value);
                 }
+                RaisePropertyChanged();
             }
         }
-
-        public Command<Album> SelectedItemCommand 
-        {
-            get 
-            {
-                return new Command<Album>(async (album) => { await CoreMethods.PushPageModel<AlbumDetailsPageModel>(album);});
-            }
-        }
-       
-
+           
         public override async void Init(object initData)
         {
             base.Init(initData);
@@ -49,8 +40,7 @@ namespace Placeholder
         async Task GetAlbumsAsync()
         {
             this.IsBusy = true;
-            var albums = await _service.GetAlbumsAsync();
-            Albums = new ObservableCollection<Album>(albums);
+            Albums = await _service.GetAlbumsAsync();
             IsBusy = false;
         }
 
