@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Xamarin.Forms;
+using FreshMvvm;
 
 namespace Placeholder
 {
@@ -8,22 +9,12 @@ namespace Placeholder
     {
         public App()
         {
+            FreshIOC.Container.Register<PlaceholderService, PlaceholderService>().AsMultiInstance();
+
             // The root page of your application
-            MainPage = new ContentPage
-            {
-                Content = new StackLayout
-                {
-                    VerticalOptions = LayoutOptions.Center,
-                    Children =
-                    {
-                        new Label
-                        {
-                            XAlign = TextAlignment.Center,
-                            Text = "Welcome to Xamarin Forms!"
-                        }
-                    }
-                }
-            };
+            var page = FreshPageModelResolver.ResolvePageModel<LandingPageModel> ();
+            var basicNavContainer = new FreshNavigationContainer (page);
+            MainPage = basicNavContainer;
         }
 
         protected override void OnStart()
