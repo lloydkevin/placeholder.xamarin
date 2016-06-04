@@ -16,6 +16,12 @@ namespace Placeholder
             return await client.GetAsync<List<Album>>();
         }
            
+        public async Task<List<Photo>> GetPhotosAsync(int albumId)
+        {
+            var client = new DataClient(string.Format("http://jsonplaceholder.typicode.com/albums/{0}/photos", albumId));
+
+            return await client.GetAsync<List<Photo>>();
+        }
     }
 }
 

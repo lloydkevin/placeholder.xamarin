@@ -8,7 +8,7 @@ using Xamarin.Forms;
 namespace Placeholder
 {
     [ImplementPropertyChanged]
-    public class AlbumsPageModel : FreshBasePageModel
+    public class AlbumsPageModel : BasePageModel
     {
         PlaceholderService _service;
 
@@ -20,11 +20,25 @@ namespace Placeholder
 
         public ObservableCollection<Album> Albums { get; set; }
 
-        public bool IsBusy
+        public Album SelectedItem 
         {
-            get;
-            set;
+            get { return null; }
+            set { 
+                if (value != null)
+                {
+                    SelectedItemCommand.Execute(value);
+                }
+            }
         }
+
+        public Command<Album> SelectedItemCommand 
+        {
+            get 
+            {
+                return new Command<Album>(async (album) => { await CoreMethods.PushPageModel<AlbumDetailsPageModel>(album);});
+            }
+        }
+       
 
         public override async void Init(object initData)
         {

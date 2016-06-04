@@ -4,7 +4,7 @@
 		<StackLayout>
 <!--			<ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />-->
 			<ListView ItemsSource="{Binding Albums}" HasUnevenRows="true" CachingStrategy="RecycleElement" 
-				IsPullToRefreshEnabled="true" IsRefreshing="{Binding IsBusy}" RefreshCommand="{Binding GetAlbumsCommand}">
+				IsPullToRefreshEnabled="true" IsRefreshing="{Binding IsBusy}" RefreshCommand="{Binding GetAlbumsCommand}" SelectedItem="{Binding SelectedItem} ">
 				<ListView.ItemTemplate>
 					<DataTemplate>
 						<TextCell Text="{Binding title}" />
